@@ -95,6 +95,38 @@ kubectl -n argocd rollout restart deployment argocd-repo-server
 kubectl annotate application root-application -n argocd \
   argocd.argoproj.io/refresh=hard --overwrite
 
+##############################################
+# to replace Security Step 5 above ?? ##
+
+# this will create a key specifically for argo (use other names for easy recognition)
+ssh-keygen -t ed25519 -C "argocd@minikube" -f ~/.ssh/argocd_ssh_key
+
+cat ~/.ssh/argocd_ssh_key.pub
+# go to github => Settings → Deploy Keys → Add deploy key -> paste the ssh key generated locally with the command above (you can find it at ~/.ssh/ )
+
+# use absolute path for the key, otherwise it will not find directory
+kubectl create secret generic argocd-ssh-creds -n argocd \
+  --from-file=sshPrivateKey=/home/plasticmemory/.ssh/argocd_ssh_key
+# be shure to protect the key
+chmod 600 /home/plasticmemory/.ssh/argocd_ssh_key
+
+# add github to known hosts inside the cluster
+ssh-keyscan github.com > github_known_hosts
+kubectl create configmap argocd-ssh-known-hosts-cm -n argocd \
+  --from-file=ssh_known_hosts=github_known_hosts \
+  --dry-run=client -o yaml | kubectl apply -f -
+
+# ArgoCD must explicitly know which repo uses which SSH private key - this patch configures this
+kubectl -n argocd patch configmap argocd-cm --type merge -p '
+data:
+  repositories: |
+    - url: git@github.com:cezarbajenaru/ekscourse_gitops_platform.git
+      sshPrivateKeySecret:
+        name: argocd-ssh-creds
+        key: sshPrivateKey
+
+
+################################################
 
 
 
