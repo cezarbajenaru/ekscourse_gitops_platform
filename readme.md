@@ -49,7 +49,7 @@ kubectl get applications -n argocd  # to gget what apps are running
 then
 kubectl describe application root-application -n argocd  # see what is working and what errors exist
 
-step 5 - Security :
+step 5 - Security procedures:
 
 Adding github to known hosts:
 
