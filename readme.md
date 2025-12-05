@@ -141,7 +141,6 @@ kubectl port-forward -n argocd svc/argocd-server 8089:443
 #reevaluate all connections
 kubectl annotate app root-application -n argocd argocd.argoproj.io/refresh=hard --overwrite
 kubectl annotate app podinfo -n argocd argocd.argoproj.io/refresh=hard --overwrite
-kubectl annotate app k9s -n argocd argocd.argoproj.io/refresh=hard --overwrite
 
 
 ################################################
