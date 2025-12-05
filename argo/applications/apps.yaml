@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: platform-apps
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/<your-github-user>/exkscourse_gitops_platform.git
+    targetRevision: main
+    path: argo/install
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: podinfo
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/cezarbajenaru/ekscourse_gitops_platform.git
+    targetRevision: main
+    path: apps/podinfo
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: k9s
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/cezarbajenaru/ekscourse_gitops_platform.git
+    targetRevision: main
+    path: apps/k9s
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

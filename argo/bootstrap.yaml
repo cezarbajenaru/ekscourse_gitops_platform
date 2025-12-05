@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: root-application
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/<your-user>/eks-course-dev-gitops.git ############put the repo url here##########
+    targetRevision: main
+    path: argo/applications        # This folder defines apps to sync
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: argocd
+  syncPolicy:
+    automated:
+      prune: true                  # remove resources removed from Git
+      selfHeal: true               # fix drift automatically
+    syncOptions:
+      - CreateNamespace=true
