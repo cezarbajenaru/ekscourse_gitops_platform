@@ -8,5 +8,5 @@ spec:
     app: podinfo
   ports:
   - port: 80
-    targetPort: 9898
+    targetPort: 8088
     nodePort: 30001
