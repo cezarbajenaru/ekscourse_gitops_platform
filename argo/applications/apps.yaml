@@ -54,22 +54,25 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: git@github.com:cezarbajenaru/ekscourse_gitops_platform.git
-    targetRevision: main
-    path: apps/wordpress
-
+    repoURL: https://charts.bitnami.com/bitnami
+    chart: wordpress
+    targetRevision: 28.0.2
     helm:
       releaseName: wordpress
-      chart: wordpress
-      repoURL: https://charts.bitnami.com/bitnami
-      valueFiles:
-        - values.yaml
-
+      values: |
+        service:
+          type: NodePort
+        ingress:
+          enabled: true
+          hostname: wordpress.local
+        mariadb:
+          enabled: true
   destination:
     server: https://kubernetes.default.svc
     namespace: default
-
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
