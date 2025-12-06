@@ -18,6 +18,8 @@ spec:
     automated:
       prune: true
       selfHeal: true
+      syncOptions:
+        - CreateNamespace=true
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
@@ -42,6 +44,17 @@ spec:
           hostname: wordpress.local
         mariadb:
           enabled: true
+          auth:
+            rootPassword: "dev-root-password"
+            password: "dev-wp-password"
+            username: "bn_wordpress"
+            database: "bitnami_wordpress"
+          primary:
+            persistence:
+              enabled: false
+              existingClaim: ""
+            podAnnotations:
+              "helm.sh/resource-policy": keep
   destination:
     server: https://kubernetes.default.svc
     namespace: default
