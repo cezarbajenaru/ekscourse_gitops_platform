@@ -34,9 +34,9 @@ spec:
     server: https://kubernetes.default.svc
     namespace: default
   sources:
-    - repoURL: https://charts.bitnami.com/bitnami
+    - repoURL: oci://registry-1.docker.io/bitnamicharts
       chart: wordpress
-      targetRevision: 28.0.0
+      targetRevision: 23.1.8
       helm:
         releaseName: wordpress
         valueFiles:
