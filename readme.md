@@ -267,3 +267,37 @@ TO DO AND LEARN
 
 
 
+# 1. Fresh start
+minikube delete
+minikube start
+minikube addons enable ingress
+
+# 2. Create namespace
+kubectl create namespace argocd
+
+# 3. Install ArgoCD (this creates the Application CRD you need)
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/v2.11.0/manifests/install.yaml
+
+# 4. Wait (this takes 2-3 minutes, be patient)
+kubectl get pods -n argocd -w
+# Press Ctrl+C when all pods show "Running"
+
+# 5. Apply your secrets
+kubectl apply -f argo/install/secrets.yaml
+
+# 6. Create SSH known hosts
+kubectl create configmap argocd-ssh-known-hosts-cm --from-file=ssh_known_hosts=github_known_hosts -n argocd
+
+# 7. Now you can apply helm-argocd.yaml (Application CRD exists now)
+kubectl apply -f argo/install/helm-argocd.yaml
+
+# 8. Bootstrap your apps
+kubectl apply -f argo/bootstrap.yaml
+
+# 9. Get the admin password
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+# 10. Access ArgoCD UI
+kubectl port-forward svc/argocd-server -n argocd 8080:80
+
+http://localhost:8080
