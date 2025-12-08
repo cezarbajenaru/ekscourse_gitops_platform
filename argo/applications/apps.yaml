@@ -35,7 +35,7 @@ spec:
     namespace: default
   source:
     repoURL: https://charts.bitnami.com/bitnami
-    chart: bitnami/wordpress
+    chart: wordpress
     targetRevision: 28.0.2
     helm:
       releaseName: wordpress
