@@ -14,11 +14,6 @@ configs:
       sshPrivateKeySecret:
         name: git-cezarbajenaru-ekscourse
         key: sshPrivateKey
-    bitnami-oci:
-      name: bitnami-oci
-      type: helm
-      url: oci://registry-1.docker.io/bitnamicharts
-      enableOCI: "true"
 
 repoServer:
   volumes:
