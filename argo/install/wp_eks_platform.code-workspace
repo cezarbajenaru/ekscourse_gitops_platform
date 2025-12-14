@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"path": "../../../eks_wordpress"
+		},
+		{
+			"path": "../../../ekscourse/terraform"
+		}
+	],
+	"settings": {}
+}

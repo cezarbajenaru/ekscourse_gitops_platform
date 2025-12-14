@@ -34,12 +34,16 @@ spec:
     server: https://kubernetes.default.svc
     namespace: default
   source:
-    repoURL: https://charts.bitnami.com/bitnami
+    repoURL: https://charts.bitnami.com/bitnami # for manifests for Kubernetes to use.
     chart: wordpress
     targetRevision: 28.0.2
     helm:
       releaseName: wordpress
       values: |
+        image:
+          registry: docker.io
+          repository: plasticmemory/eks_wordpress
+          tag: IMAGE_TAG_PLACEHOLDER
         service:
           type: ClusterIP
         ingress:

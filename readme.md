@@ -1,6 +1,39 @@
 minikube was used in this project because it runs in a VM and has memory of what we create here
 use kubectl to create the cluster and then point argocd installation that particular namespace - namespace that logically maps to the cluster 
 
+THE PIPELINE THAT PUSHES THE CODE HERE IN ARGO RESIDES IN : https://github.com/cezarbajenaru/eks_wordpress/
+
+Overview of structures pointing to ArgoCD
+
+```
+Developer writes code
+    ↓
+git push to repository
+    ↓
+CI Pipeline triggered
+    ↓
+1. Run tests
+2. Build Docker image (ONE time)
+3. Push to container registry with tag
+    ↓
+CD Pipeline triggered
+    ↓
+4. Update Kustomize overlay with new image tag
+5. Deploy to Dev automatically
+    ↓
+6. Run integration tests
+    ↓
+7. (Manual approval or auto) → Deploy to Staging
+    ↓
+8. Run smoke tests
+    ↓
+9. (Manual approval) → Deploy to Prod
+```
+
+
+
+
+
 ```
 $ tree
 .
@@ -26,10 +59,11 @@ $ tree
 ├── github_known_hosts
 ├── pforward.sh
 └── readme.md
+```
 
 8 directories, 15 files
 ################# come back and recreate the whole tree everytime you add stuff like folders and files. Helps readability#####
-```
+
 
 # 1. Fresh start
 minikube delete
